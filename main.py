@@ -1,6 +1,6 @@
 import sys
-import bankaccounts as ba
-import atmsettings as atm
+import data.bankaccounts as ba
+import data.atmsettings as atm
 
 accounts = ba.accounts
 atmSettings = atm.settings
