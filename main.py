@@ -72,6 +72,19 @@ def showMainMenu():
     return user_option
 
 
+def showBalance():
+    os.system('clear')
+    print('''
+========================================
+        SHOWING BALANCE
+
+EUR: 400
+
+0. BACK
+========================================
+    ''')
+
+
 def cardExists(cardNumber):
     return cardNumber in accounts
 
@@ -116,18 +129,14 @@ def showCardDetails(cardDetails):
 
 
 def main():
-    valid_card = False
-    while valid_card is False:
-        showWelcomeScreen()
-        cardNumber = insertCard()
-        os.system('clear')
-        if cardExists(cardNumber) is False:
-            showInvalidMessage('CARD')
-            print('Card Does Not Exist. Returning to main screen in 5 seconds.')
-            time.sleep(5)
-            continue
-        else:
-            valid_card = True
+    os.system('clear')
+    showWelcomeScreen()
+    cardNumber = insertCard()
+    if cardExists(cardNumber) is False:
+        showInvalidMessage('CARD')
+        print('Card Does Not Exist. Returning to main screen in 5 seconds.')
+        time.sleep(5)
+        main()
     valid_pin = False
     while valid_pin is False:
         showIsertPinScreen()
@@ -137,18 +146,37 @@ def main():
             time.sleep(5)
         else:
             valid_pin = True
-    
-    option = showMainMenu()
-    if option == '1':
-        show_card_details_running = True
-        while show_card_details_running is True:
-            os.system('clear')
-            cardDetails = getCardDetails(cardNumber)
-            showCardDetails(cardDetails)
-            input('Press Enter to go back to the main menu.')
-            show_card_details_running = False
-
-
+    menu_running = True
+    while menu_running is True:
+        option = showMainMenu()
+        if option == '1':
+            show_card_details_running = True
+            while show_card_details_running is True:
+                os.system('clear')
+                cardDetails = getCardDetails(cardNumber)
+                showCardDetails(cardDetails)
+                deatils_show_selection = input('Select 0 to go back to the main menu.')
+                if deatils_show_selection == '0':
+                    show_card_details_running = False
+                else:
+                    continue
+        if option == '2':
+            show_balance_running = True
+            while show_balance_running is True:
+                os.system('clear')
+                showBalance()
+                balance_show_selection = input('Select 0 to go back to the main menu.')
+                if balance_show_selection == '0':
+                    show_balance_running = False
+                else:
+                    continue
+        if option == '3':
+            print('Under construction.')
+        if option == '0':
+            valid_card = False
+            valid_pin = False
+            menu_running = False
+            main()
 
 if __name__ == "__main__":
     main()
