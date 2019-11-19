@@ -103,19 +103,25 @@ def showCardDetails(cardNumber):
     ''')
 
 
-def showBalance(cardno):
+def showBalance(cardNumber):
     os.system('clear')
-    balance = accounts[cardno]['bank']['balance']
-    currency = accounts[cardno]['bank']['currency']
+    balance = accounts[cardNumber]['bank']['balance']
+    currency = accounts[cardNumber]['bank']['currency']
+    atm_limit_EUR = atmSettings['location']['maxWithdrawAmount']['EUR']
+    atm_limit_USD = atmSettings['location']['maxWithdrawAmount']['USD']
+    if currency == 'USD':
+        currency_limit = atm_limit_USD
+    elif currency == 'EUR':
+        currency_limit = atm_limit_EUR
     print('''
 ========================================
         SHOWING BALANCE
 
 '''
           f'          {currency}: {balance}'
+f'\n'
+f'\nATM withdrawal limit is {currency} {currency_limit}'
 '''
-
-0. BACK
 ========================================
     ''')
 
@@ -174,6 +180,19 @@ def show_receipt(cardNumber, amount):
     f'\nCard number: {cardNumber}'
     '''
 ========================================"
+    ''')
+
+
+def show_goodbye_screen():
+    os.system('clear')
+    print('''
+========================================
+
+         THANK YOU FOR USING
+         THE SILVER BANK ATM
+        HAVE A WONDERFUL DAY!
+
+========================================
     ''')
 
 
@@ -254,27 +273,23 @@ def run_menu(cardNumber):
             while show_card_details_running is True:
                 os.system('clear')
                 showCardDetails(cardNumber)
-                deatils_show_selection = input('Select 0 to go back to the main menu.')
-                if deatils_show_selection == '0':
-                    show_card_details_running = False
-                else:
-                    continue
+                input('Press Enter to continue...')
+                run_menu(cardNumber)
         if option == '2':
             show_balance_running = True
             while show_balance_running is True:
                 os.system('clear')
                 showBalance(cardNumber)
-                balance_show_selection = input('Select 0 to go back to the main menu.')
-                if balance_show_selection == '0':
-                    show_balance_running = False
-                else:
-                    continue
+                input('Press Enter to continue...')
+                run_menu(cardNumber)
         if option == '3':
             withdraw_cash(cardNumber)
         if option == '0':
             valid_card = False
             valid_pin = False
             menu_running = False
+            show_goodbye_screen()
+            time.sleep(5)
             main()
 
 
