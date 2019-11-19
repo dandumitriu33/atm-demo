@@ -120,6 +120,63 @@ def showBalance(cardno):
     ''')
 
 
+def show_withdraw_screen():
+    os.system('clear')
+    print('''
+========================================
+
+
+          AMOUNT TO WITHDRAW
+
+
+========================================
+    ''')
+
+
+def show_insufficient_funds():
+    os.system('clear')
+    print('''
+========================================
+
+
+           INSUFFICIENT FUNDS
+
+
+========================================
+    ''')
+
+
+def show_atm_limit_exceeded():
+    os.system('clear')
+    print('''
+========================================
+
+
+      ATM WITHDRAWAL LIMIT EXCEEDED
+
+
+========================================
+    ''')
+
+
+def show_receipt(cardNumber, amount):
+    os.system('clear')
+    country = atmSettings['location']['country']
+    city = atmSettings['location']['city']
+    address = atmSettings['location']['address']
+    currency = accounts[cardNumber]['bank']['currency']
+    print('''
+========================================
+            CASH WITHDRAWAL'''
+    f'\n{country}, {city}'
+    f'\n{address}'
+    f'\n{currency}: {amount}'
+    f'\nCard number: {cardNumber}'
+    '''
+========================================"
+    ''')
+
+
 def cardExists(cardNumber):
     # insert function/statement to verify if card is not 'blocked' in DB
     # if card is 'blocked'
@@ -161,6 +218,33 @@ def validate_pin(cardNumber):
     return False
 
 
+def withdraw_cash(cardNumber):
+    show_withdraw_screen()
+    amount = int(input('Please type the withdrawal amount: '))
+    card_type = accounts[cardNumber]['card']['type']
+    commission = atmSettings['commission'][card_type]
+    atm_limit_EUR = atmSettings['location']['maxWithdrawAmount']['EUR']
+    atm_limit_USD = atmSettings['location']['maxWithdrawAmount']['USD']
+    available_balance = accounts[cardNumber]['bank']['balance']
+    if accounts[cardNumber]['bank']['currency'] == 'EUR':
+        operation_limit = int(atm_limit_EUR)
+    elif accounts[cardNumber]['bank']['currency'] == 'EUR':
+        operation_limit = int(atm_limit_USD)
+    if amount + commission <= available_balance and amount <= operation_limit:
+        # function to update the balance in the DB
+        show_receipt(cardNumber, amount)
+        input('Press Enter to continue...')
+    elif (amount + commission) > available_balance:
+        show_insufficient_funds()
+        input('Press Enter to continue...')
+        run_menu(cardNumber)
+    elif amount > operation_limit:
+        show_atm_limit_exceeded()
+        input('Press Enter to continue...')
+        run_menu(cardNumber)
+    run_menu(cardNumber)
+
+
 def run_menu(cardNumber):
     menu_running = True
     while menu_running is True:
@@ -186,7 +270,7 @@ def run_menu(cardNumber):
                 else:
                     continue
         if option == '3':
-            print('Under construction.')
+            withdraw_cash(cardNumber)
         if option == '0':
             valid_card = False
             valid_pin = False
