@@ -72,13 +72,17 @@ def showMainMenu():
     return user_option
 
 
-def showBalance():
+def showBalance(cardno):
     os.system('clear')
+    balance = accounts[cardno]['bank']['balance']
+    currency = accounts[cardno]['bank']['currency']
     print('''
 ========================================
         SHOWING BALANCE
 
-EUR: 400
+'''
+          f'          {currency}: {balance}'
+'''
 
 0. BACK
 ========================================
@@ -164,7 +168,7 @@ def main():
             show_balance_running = True
             while show_balance_running is True:
                 os.system('clear')
-                showBalance()
+                showBalance(cardNumber)
                 balance_show_selection = input('Select 0 to go back to the main menu.')
                 if balance_show_selection == '0':
                     show_balance_running = False
