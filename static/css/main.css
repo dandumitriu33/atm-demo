@@ -1,0 +1,9 @@
+html {
+    background-color: gray;
+}
+
+body {
+    width: 800px;
+    height: 800px;
+    background-image: url("/static/img/background.jpg");
+}
