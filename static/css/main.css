@@ -1,4 +1,6 @@
 html {
+    width: 800px;
+    height: 800px;
     background-color: gray;
 }
 
@@ -6,4 +8,19 @@ body {
     width: 800px;
     height: 800px;
     background-image: url("/static/img/background.jpg");
+}
+
+h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 255px;
+}
+
+/*  classes  */
+
+.container {
+    position: relative;
+    left: 100px;
+    top: 300px;
 }

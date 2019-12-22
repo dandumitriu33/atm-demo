@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+
+<h1>Add card and data to the db</h1>
+
+<div class="container">
+    <table>
+        <form action="/admin" method="POST">
+            <tr>
+                <td><label for="card">Card ID:</label></td>
+                <td><input type="number" name="card" id="card"></td>
+            </tr>
+            <tr>
+                <td><label for="card-type">Card type (VISA/MC):</label></td>
+                <td><input type="text" name="card-type" id="card-type"></td>
+            </tr>
+            <tr>
+                <td><label for="card-pin">Card PIN:</label></td>
+                <td><input type="number" name="card-pin" id="card-pin"></td>
+            </tr>
+            <tr>
+                <td><label for="holder-name">Holder name:</label></td>
+                <td><input type="text" name="holder-name" id="holder-name"></td>
+            </tr>
+            <tr>
+                <td><label for="bank-name">Bank name:</label></td>
+                <td><input type="text" name="bank-name" id="bank-name"></td>
+            </tr>
+            <tr>
+                <td><label for="account-name">Account name:</label></td>
+                <td><input type="text" name="account-name" id="account-name"></td>
+            </tr>
+            <tr>
+                <td><label for="account-number">Account-number:</label></td>
+                <td><input type="text" name="account-number" id="account-number"></td>
+            </tr>
+            <tr>
+                <td><label for="balance">Balance:</label></td>
+                <td><input type="number" name="balance" id="balance"></td>
+            </tr>
+            <tr>
+                <td><label for="currency">Currency:</label></td>
+                <td><input type="text" name="currency" id="currency"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Add card data"></td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+
+{% endblock body %}
