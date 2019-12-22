@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1>ENTER PIN</h1>
+
+<div class="enter-pin-field">
+    <form action="/enter-pin/<card_id>" method="POST">
+        <input type="password" name="user-pin" maxlength="4" class="enter-pin">
+        <button type="submit" value="ENTER" class="enter-pin-button">ENTER</button>
+    </form>
+
+</div>
+
+{% endblock body %}

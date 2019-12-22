@@ -23,9 +23,35 @@ class Atm(db.Model):
         return '<Task %r>' % self.id
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'POST':
+        user_card = request.form['card-number']
+        # try:
+        result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == user_card)
+        # todo if type result == none raise value error + page cu redirect?
+        for item in result:
+            print(item.card_id)
+            inserted_card_id = item.card_id
+            print(inserted_card_id)
+        return redirect(url_for('enter_pin', card_id=inserted_card_id))
+        # except:
+        #     return 'Invalid card, please contact your banking agent.'
+    else:
+        return render_template('index.html')
+
+
+@app.route('/enter-pin/<card_id>', methods=['GET', 'POST'])
+def enter_pin(card_id):
+    if request.method == 'GET':
+        return render_template('enter-pin.html',
+                               card_id=card_id)
+    elif request.method == 'POST':
+        result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
+        for item in result:
+            inserted_card_pin = item.card_pin
+        print(inserted_card_pin)
+        return 'Stand by'
 
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -59,6 +85,10 @@ def admin():
     else:
         # cards = Atm.query.order_by(Atm.card_id).all() # also add cards=cards in return and jinja
         return render_template('admin.html')
+
+
+
+
 
 
 if __name__ == "__main__":
