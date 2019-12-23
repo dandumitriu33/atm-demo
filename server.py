@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-
+import sqlalchemy.orm.exc
+import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///atm.db'
@@ -18,6 +19,7 @@ class Atm(db.Model):
     account_number = db.Column(db.String, default='')
     balance = db.Column(db.Float, default=0)
     currency = db.Column(db.String, default='')
+    failed_pin_attempts = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -27,31 +29,55 @@ class Atm(db.Model):
 def index():
     if request.method == 'POST':
         user_card = request.form['card-number']
-        # try:
-        result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == user_card)
-        # todo if type result == none raise value error + page cu redirect?
-        for item in result:
-            print(item.card_id)
-            inserted_card_id = item.card_id
-            print(inserted_card_id)
-        return redirect(url_for('enter_pin', card_id=inserted_card_id))
-        # except:
-        #     return 'Invalid card, please contact your banking agent.'
+        try:
+            result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == user_card)
+            # todo if type result == none raise value error + Value Error page
+            # tried several ways, could not find a valid one
+
+            for item in result:
+                inserted_card_id = item.card_id
+                print(inserted_card_id)
+
+            return redirect(url_for('enter_pin', card_id=inserted_card_id))
+        except sqlalchemy.orm.exc.NoResultFound:
+            return 'Card does not exist.'
+        except:
+            return render_template('invalid-card.html')
+
     else:
         return render_template('index.html')
 
 
+@app.route('/invalid-card')
+def invalid_card():
+    return render_template('invalid-card.html')
+
+
 @app.route('/enter-pin/<card_id>', methods=['GET', 'POST'])
 def enter_pin(card_id):
+    print('bump', card_id)
     if request.method == 'GET':
+        print('GET card id:', card_id)
         return render_template('enter-pin.html',
                                card_id=card_id)
     elif request.method == 'POST':
+        card_id = int(request.form['card-id'])
+        print(type(card_id))
+        user_entered_pin = int(request.form['user-pin'])
+        inserted_card_pin = 0
         result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
         for item in result:
+            print('dbpin', item.card_pin)
             inserted_card_pin = item.card_pin
-        print(inserted_card_pin)
-        return 'Stand by'
+        if user_entered_pin == inserted_card_pin:
+            # clear db of failed attempts
+            return 'successful'
+        else:
+            # if failed attempts < 2
+            # add to db +1 failed attempts
+            # elif failed attempts >= 2
+            # block card
+            return render_template('invalid-pin.html', card_id=card_id)
 
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -85,10 +111,6 @@ def admin():
     else:
         # cards = Atm.query.order_by(Atm.card_id).all() # also add cards=cards in return and jinja
         return render_template('admin.html')
-
-
-
-
 
 
 if __name__ == "__main__":

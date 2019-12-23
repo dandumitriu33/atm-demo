@@ -25,13 +25,29 @@ h1 {
     top: 300px;
 }
 
+.enter-pin-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 285px;
+}
+
+.enter-pin-card-id {
+    display: none;
+}
+
 .enter-pin {
     position:relative;
-    left: 255px;
+    font-size: x-large;
+    padding: 10px;
+    letter-spacing: 5px;
+    width: 100px;
+    left: 320px;
     top: 310px;
 }
 
 .enter-pin-button {
+    background-color: darkgray;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     padding: 20px;
@@ -39,11 +55,37 @@ h1 {
     border: none;
     float: right;
     margin-top: 255px;
-    color: cadetblue;
+    color: lightgray;
     font-size: 22px;
 }
 
 .enter-pin-button:hover {
+    background-color: gray;
+    color: lightgray;
+}
+
+.invalid-pin-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 285px;
+}
+
+.back-button {
+    position: absolute;
+    background-color: darkgray;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 20px;
+    padding-left: 50px;
+    border: none;
+    float: left;
+    margin-top: 255px;
+    color: lightgray;
+    font-size: 22px;
+}
+
+.back-button:hover {
     background-color: gray;
     color: lightgray;
 }

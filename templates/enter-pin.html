@@ -6,14 +6,19 @@
 
 
 {% block body %}
-<h1>ENTER PIN</h1>
+<h1 class="enter-pin-h1">ENTER PIN</h1>
+
+<a href="{{ url_for('index') }}"><button class="back-button">BACK</button></a>
 
 <div class="enter-pin-field">
     <form action="/enter-pin/<card_id>" method="POST">
-        <input type="password" name="user-pin" maxlength="4" class="enter-pin">
+        <input type="number" name="card-id" value="{{ card_id }}" class="enter-pin-card-id">
+        <input type="password" name="user-pin" maxlength="4" class="enter-pin" required>
         <button type="submit" value="ENTER" class="enter-pin-button">ENTER</button>
     </form>
 
 </div>
+
+
 
 {% endblock body %}

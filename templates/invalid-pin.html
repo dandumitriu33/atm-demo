@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>INVALID PIN</title>
+{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="invalid-pin-h1">INVALID PIN</h1>
+
+<a href="{{ url_for('enter_pin', card_id=card_id) }}"><button class="back-button">BACK</button></a>
+
+{% endblock body %}
