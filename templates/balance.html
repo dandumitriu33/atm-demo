@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="balance-h1">ACCOUNT BALANCE</h1>
+
+<a href="{{ url_for('options', card_id=card_id) }}"><button class="back-button">BACK</button></a>
+
+<div class="balance-info">
+    <p><strong>{{ currency }}: {{ balance }}</strong></p>
+</div>
+
+
+{% endblock body %}

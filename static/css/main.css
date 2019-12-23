@@ -19,6 +19,31 @@ h1 {
 
 /*  classes  */
 
+.card-number-field {
+    float: right;
+}
+
+.card-number-button {
+    position: absolute;
+    margin-left: 750px;
+    margin-top: 10px;
+}
+
+.testing-info {
+    position: absolute;
+    margin-top: 760px;
+    margin-left: 250px;
+    color: lightgray;
+}
+
+.testing-info-pin {
+    position: absolute;
+    margin-top: 720px;
+    margin-left: 250px;
+    color: lightgray;
+}
+
+
 .container {
     position: relative;
     left: 100px;
@@ -47,6 +72,7 @@ h1 {
 }
 
 .enter-pin-button {
+    width: 180px;
     background-color: darkgray;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
@@ -72,6 +98,7 @@ h1 {
 }
 
 .back-button {
+    width: 180px;
     position: absolute;
     background-color: darkgray;
     border-top-right-radius: 25px;
@@ -88,4 +115,141 @@ h1 {
 .back-button:hover {
     background-color: gray;
     color: lightgray;
+}
+
+.options-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 300px;
+}
+
+.exit-button {
+    width: 180px;
+    position: absolute;
+    background-color: darkgray;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 20px;
+    padding-left: 50px;
+    border: none;
+    float: left;
+    margin-top: 255px;
+    color: lightgray;
+    font-size: 22px;
+}
+
+.exit-button:hover {
+    background-color: gray;
+    color: lightgray;
+}
+
+.withdraw-button {
+    width: 180px;
+    background-color: darkgray;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: 20px;
+    padding-left: 50px;
+    border: none;
+    float: right;
+    margin-top: 255px;
+    color: lightgray;
+    font-size: 22px;
+}
+
+.withdraw-button:hover {
+    background-color: gray;
+    color: lightgray;
+}
+
+.details-button {
+    width: 180px;
+    position: absolute;
+    background-color: darkgray;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 20px;
+    padding-left: 50px;
+    border: none;
+    margin-left: 0;
+    margin-top: 505px;
+    color: lightgray;
+    font-size: 22px;
+}
+
+.details-button:hover {
+    background-color: gray;
+    color: lightgray;
+}
+
+
+
+.balance-button {
+    width: 180px;
+    position: absolute;
+    background-color: darkgray;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: 20px;
+    padding-left: 50px;
+    border: none;
+    float: right;
+    margin-left: 620px;
+    margin-top: 505px;
+    color: lightgray;
+    font-size: 22px;
+}
+
+.balance-button:hover {
+    background-color: gray;
+    color: lightgray;
+}
+
+.withdraw-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 290px;
+}
+
+.withdraw-field {
+    position:relative;
+    font-size: x-large;
+    padding: 10px;
+    letter-spacing: 5px;
+    width: 200px;
+    left: 281px;
+    top: 310px;
+}
+
+.balance-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 215px;
+}
+
+.balance-info {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: lightgray;
+    position: fixed;
+    margin-top: 350px;
+    margin-left: 290px;
+    padding: 5px;
+    font-size: x-large;
+    color: black;
+}
+
+.details-info {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: lightgray;
+    position: fixed;
+    margin-top: 350px;
+    margin-left: 130px;
+    padding: 5px;
+    font-size: x-large;
+    color: black;
 }

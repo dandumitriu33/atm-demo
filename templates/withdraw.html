@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="withdraw-h1">WITHDRAW</h1>
+
+<a href="{{ url_for('options', card_id=card_id) }}"><button class="back-button">BACK</button></a>
+
+<div class="enter-pin-field">
+    <form action="{{ url_for('options', card_id=card_id) }}" method="POST">
+        <input type="number" name="card-id" value="{{ card_id }}" class="enter-pin-card-id">
+        <input type="number" name="withdraw-amount" required class="withdraw-field">
+        <button type="submit" value="ENTER" class="withdraw-button">WITHDRAW</button>
+    </form>
+
+</div>
+
+
+
+{% endblock body %}

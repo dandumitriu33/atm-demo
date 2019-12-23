@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="details-h1">CARD DETAILS</h1>
+
+<a href="{{ url_for('options', card_id=card_id) }}"><button class="back-button">BACK</button></a>
+
+<div class="details-info">
+    <p><strong>CARD HOLDER: {{ holder }}</strong></p>
+    <p><strong>CARD TYPE: {{ type }}</strong></p>
+    <p><strong>BANK NAME: {{ bank_name }}</strong></p>
+    <p><strong>ACCOUNT NO: {{ bank_account }}</strong></p>
+</div>
+
+
+{% endblock body %}

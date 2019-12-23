@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="options-h1">OPTIONS</h1>
+
+<div>
+    <a href="{{ url_for('index') }}"><button class="exit-button">EXIT</button></a>
+</div>
+<div>
+    <a href="{{ url_for('withdraw', card_id=card_id) }}"><button class="withdraw-button">WITHDRAW</button></a>
+</div>
+<div>
+    <a href="{{ url_for('details', card_id=card_id) }}"><button class="details-button">DETAILS</button></a>
+</div>
+<div>
+    <a href="{{ url_for('balance', card_id=card_id) }}"><button class="balance-button">BALANCE</button></a>
+</div>
+
+
+
+{% endblock body %}

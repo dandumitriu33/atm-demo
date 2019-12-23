@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy.orm.exc
-import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///atm.db'
@@ -36,14 +35,11 @@ def index():
 
             for item in result:
                 inserted_card_id = item.card_id
-                print(inserted_card_id)
-
             return redirect(url_for('enter_pin', card_id=inserted_card_id))
         except sqlalchemy.orm.exc.NoResultFound:
             return 'Card does not exist.'
         except:
             return render_template('invalid-card.html')
-
     else:
         return render_template('index.html')
 
@@ -53,27 +49,23 @@ def invalid_card():
     return render_template('invalid-card.html')
 
 
-@app.route('/enter-pin/<card_id>', methods=['GET', 'POST'])
+@app.route('/<card_id>/enter-pin', methods=['GET', 'POST'])
 def enter_pin(card_id):
-    print('bump', card_id)
     if request.method == 'GET':
-        print('GET card id:', card_id)
         return render_template('enter-pin.html',
                                card_id=card_id)
     elif request.method == 'POST':
         card_id = int(request.form['card-id'])
-        print(type(card_id))
         user_entered_pin = int(request.form['user-pin'])
         inserted_card_pin = 0
         result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
         for item in result:
-            print('dbpin', item.card_pin)
             inserted_card_pin = item.card_pin
         if user_entered_pin == inserted_card_pin:
-            # clear db of failed attempts
-            return 'successful'
+            # todo clear db of failed attempts
+            return redirect(url_for('options', card_id=card_id))
         else:
-            # if failed attempts < 2
+            # todo if failed attempts < 2
             # add to db +1 failed attempts
             # elif failed attempts >= 2
             # block card
@@ -111,6 +103,49 @@ def admin():
     else:
         # cards = Atm.query.order_by(Atm.card_id).all() # also add cards=cards in return and jinja
         return render_template('admin.html')
+
+
+@app.route('/<card_id>/options', methods=['GET', 'POST'])
+def options(card_id):
+    if request.method == 'POST':
+        return 'under construction'
+    else:
+        return render_template('options.html',
+                               card_id=card_id)
+
+
+@app.route('/<card_id>/options/withdraw')
+def withdraw(card_id):
+    return render_template('withdraw.html',
+                           card_id=card_id)
+
+
+@app.route('/<card_id>/options/balance')
+def balance(card_id):
+    result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
+    for item in result:
+        balance = item.balance
+        currency = item.currency
+    return render_template('balance.html',
+                           card_id=card_id,
+                           balance=balance,
+                           currency=currency)
+
+
+@app.route('/<card_id>/options/details')
+def details(card_id):
+    result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
+    for item in result:
+        holder = item.holder_name
+        type = item.card_type
+        bank_name = item.bank_name
+        bank_account = item.account_number
+    return render_template('details.html',
+                           card_id=card_id,
+                           holder=holder,
+                           type=type,
+                           bank_name=bank_name,
+                           bank_account=bank_account)
 
 
 if __name__ == "__main__":
