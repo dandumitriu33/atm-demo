@@ -253,3 +253,15 @@ h1 {
     font-size: x-large;
     color: black;
 }
+
+.blocked-info {
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: lightgray;
+    position: fixed;
+    margin-top: 350px;
+    margin-left: 185px;
+    padding: 5px;
+    font-size: x-large;
+    color: black;
+}

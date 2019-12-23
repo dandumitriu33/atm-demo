@@ -2,6 +2,7 @@
 
 {% block head %}
 <title>INVALID PIN</title>
+<meta http-equiv="refresh" content="10; url = {{ url_for('enter_pin', card_id=card_id) }}" />
 {% endblock head %}
 
 

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import sqlalchemy.orm.exc
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///atm.db'
@@ -27,16 +27,17 @@ class Atm(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        user_card = request.form['card-number']
+        card_id = int(request.form['card-number'])
         try:
-            result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == user_card)
+            result = Atm.query.filter_by(card_id=card_id).first()
             # todo if type result == none raise value error + Value Error page
             # tried several ways, could not find a valid one
-
-            for item in result:
-                inserted_card_id = item.card_id
-            return redirect(url_for('enter_pin', card_id=inserted_card_id))
-        except sqlalchemy.orm.exc.NoResultFound:
+            if result.card_id != card_id:
+                raise ValueError
+            else:
+                inserted_card_id = result.card_id
+                return redirect(url_for('enter_pin', card_id=inserted_card_id))
+        except ValueError:
             return 'Card does not exist.'
         except:
             return render_template('invalid-card.html')
@@ -62,14 +63,29 @@ def enter_pin(card_id):
         for item in result:
             inserted_card_pin = item.card_pin
         if user_entered_pin == inserted_card_pin:
-            # todo clear db of failed attempts
+            result = Atm.query.filter_by(card_id=card_id).first()
+            result.failed_pin_attempts = 0
+            db.session.commit()
             return redirect(url_for('options', card_id=card_id))
         else:
-            # todo if failed attempts < 2
-            # add to db +1 failed attempts
-            # elif failed attempts >= 2
-            # block card
+            result = Atm.query.filter_by(card_id=card_id).first()
+            if result.failed_pin_attempts < 2:
+                result.failed_pin_attempts += 1
+                db.session.commit()
+            elif result.failed_pin_attempts == 2:
+                result.failed_pin_attempts = 0  # because of testing purposes for now
+                db.session.commit()
+                return redirect(url_for('blocked', card_id=card_id))
+            # todo if launched in production :)
+            # add 1 to failed attempts and place a condition where the pin verification doesn't go
+            # through where failed_pin_attempts >= 3
             return render_template('invalid-pin.html', card_id=card_id)
+
+
+@app.route('/<card_id>/blocked')
+def blocked(card_id):
+    return render_template('blocked.html',
+                           card_id=card_id)
 
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -99,9 +115,7 @@ def admin():
             return redirect(url_for('admin'))
         except:
             return 'There was an issue adding the card.'
-
     else:
-        # cards = Atm.query.order_by(Atm.card_id).all() # also add cards=cards in return and jinja
         return render_template('admin.html')
 
 
@@ -114,10 +128,16 @@ def options(card_id):
                                card_id=card_id)
 
 
-@app.route('/<card_id>/options/withdraw')
+@app.route('/<card_id>/options/withdraw', methods=['GET', 'POST'])
 def withdraw(card_id):
-    return render_template('withdraw.html',
-                           card_id=card_id)
+    if request.method == 'GET':
+        return render_template('withdraw.html',
+                               card_id=card_id)
+    elif request.method == 'POST':
+        result = Atm.query.filter_by(card_id=card_id).first()
+        result.balance -= int(request.form['withdraw-amount'])
+        db.session.commit()
+        return redirect(url_for('options', card_id=card_id))
 
 
 @app.route('/<card_id>/options/balance')

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<meta http-equiv="refresh" content="20; url = {{ url_for('index') }}" />
+
+{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="blocked-h1">CARD BLOCKED</h1>
+
+<a href="{{ url_for('index') }}"><button class="exit-button">EXIT</button></a>
+
+<div class="blocked-info">
+    <p><strong>CARD BLOCKED</strong></p>
+    <p>
+        BECAUSE THE PIN NUMBER WAS<br>
+        ENTERED INCORRECTLY 3 TIMES<br>
+        THE CARD HAS BEEN BLOCKED<br>
+        AND CAN NO LONGER BE USED.
+    </p>
+    <p>
+        FOR MORE INFORMATION<br>
+        PLEASE CONTACT YOUR<br>
+        BANKING OFFICER.
+    </p>
+    <p>This page will be closed in 20 seconds.</p>
+</div>
+
+
+{% endblock body %}
