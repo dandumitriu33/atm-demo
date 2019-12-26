@@ -28,6 +28,16 @@ class TestDataManager(unittest.TestCase):
         answer = data_manager.get_specific_card_account_number(8931)
         self.assertEqual(answer, 'IBAN31008901000018901')
 
+    def test_get_specific_card_balance(self):
+        answer = data_manager.get_specific_card_balance(1234)
+        self.assertEqual(answer, 5000.0)
+
+    def test_get_specific_card_currency(self):
+        answer = data_manager.get_specific_card_currency(9842)
+        self.assertEqual(answer, 'EUR')
+        answer = data_manager.get_specific_card_currency(1893)
+        self.assertEqual(answer, 'USD')
+
 
 if __name__ == '__main__':
     unittest.main()

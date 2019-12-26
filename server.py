@@ -141,12 +141,21 @@ def withdraw(card_id):
         return redirect(url_for('options', card_id=card_id))
 
 
+# @app.route('/<card_id>/options/balance')
+# def balance(card_id):
+#     result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
+#     for item in result:
+#         balance = item.balance
+#         currency = item.currency
+#     return render_template('balance.html',
+#                            card_id=card_id,
+#                            balance=balance,
+#                            currency=currency)
+
 @app.route('/<card_id>/options/balance')
 def balance(card_id):
-    result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
-    for item in result:
-        balance = item.balance
-        currency = item.currency
+    balance = data_manager.get_specific_card_balance(card_id)
+    currency = data_manager.get_specific_card_currency(card_id)
     return render_template('balance.html',
                            card_id=card_id,
                            balance=balance,

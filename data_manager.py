@@ -15,3 +15,11 @@ def get_specific_card_bank_name(card_id):
 
 def get_specific_card_account_number(card_id):
     return connection.get_card_info(card_id).account_number
+
+
+def get_specific_card_balance(card_id):
+    return connection.get_card_info(card_id).balance
+
+
+def get_specific_card_currency(card_id):
+    return connection.get_card_info(card_id).currency

@@ -1,16 +1,16 @@
-#ATM - demo
+# ATM - demo
 
 Educational project. Simulation of an ATM machine progam.
 
 quick look - https://flaskatmdemo.herokuapp.com/
 
-##Technologies used:
+## Technologies used:
 - Flask - Python framework for web apps http://flask.palletsprojects.com/en/1.1.x/
 - HTML and CSS
 - database - SQLAlchemy https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 - deployed on heroku.com https://www.heroku.com/
 
-##Local installation (Ubuntu 18.4+)
+## Local installation (Ubuntu 18.4+)
 - clone/download the project inside a parent directory
 - on Ubuntu Python 3 should be installed by default, if not
 please install it - https://www.python.org/
@@ -22,7 +22,7 @@ please install it - https://www.python.org/
 
         sudo pip3 install virtualenv
         
-- create the virtual environment and activate it inside the roject directory
+- create the virtual environment and activate it inside the project directory
 
         virtualenv venv
         source venv/bin/activate
@@ -36,7 +36,7 @@ contents of requirements.txt
 
         python3 server.py
         
-##How to use
+## How to use  
 Pretty intuitive UI, try to think of it as an actual ATM, pretend you only have the number keys and a 
 touchscreen.
 
