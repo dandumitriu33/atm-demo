@@ -33,3 +33,9 @@ def update_balance_in_db(card_id, remaining_balance):
     result = Atm.query.filter_by(card_id=card_id).first()
     result.balance = remaining_balance
     db.session.commit()
+
+
+def update_failed_pin_attempts_in_db(card_id, failed_pin_attempts):
+    result = Atm.query.filter_by(card_id=card_id).first()
+    result.failed_pin_attempts = failed_pin_attempts
+    db.session.commit()

@@ -55,32 +55,26 @@ def invalid_card():
 @app.route('/<card_id>/enter-pin', methods=['GET', 'POST'])
 def enter_pin(card_id):
     if request.method == 'GET':
-        return render_template('enter-pin.html',
-                               card_id=card_id)
+        if data_manager.verify_blocked_card(card_id) is True:
+            render_template('invalid-card.html')
+        elif data_manager.verify_blocked_card(card_id) is False:
+            return render_template('enter-pin.html',
+                                   card_id=card_id)
     elif request.method == 'POST':
-        card_id = int(request.form['card-id'])
-        user_entered_pin = int(request.form['user-pin'])
-        inserted_card_pin = 0
-        result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
-        for item in result:
-            inserted_card_pin = item.card_pin
-        if user_entered_pin == inserted_card_pin:
-            result = Atm.query.filter_by(card_id=card_id).first()
-            result.failed_pin_attempts = 0
-            db.session.commit()
+        user_pin = request.form['user-pin']
+        failed_pin_attempts = data_manager.get_specific_card_failed_pin_attempts(card_id)
+        if data_manager.verify_pin(card_id, user_pin) is True:
+            failed_pin_attempts = 0
+            data_manager.update_failed_pin_attempts(card_id, failed_pin_attempts)
             return redirect(url_for('options', card_id=card_id))
-        else:
-            result = Atm.query.filter_by(card_id=card_id).first()
-            if result.failed_pin_attempts < 2:
-                result.failed_pin_attempts += 1
-                db.session.commit()
-            elif result.failed_pin_attempts == 2:
-                result.failed_pin_attempts = 0  # because of testing purposes for now
-                db.session.commit()
-                return redirect(url_for('blocked', card_id=card_id))
-            # todo if launched in production :)
-            # add 1 to failed attempts and place a condition where the pin verification doesn't go
-            # through where failed_pin_attempts >= 3
+        # security logic to block a card after 3 failed pin attempts - in data_manager module
+        elif data_manager.verify_pin(card_id, user_pin) is False and failed_pin_attempts == 2:
+            failed_pin_attempts = 0  # for testing purposes only, otherwise failed_pin_attempts += 1
+            data_manager.update_failed_pin_attempts(card_id, failed_pin_attempts)
+            return redirect(url_for('blocked', card_id=card_id))
+        elif data_manager.verify_pin(card_id, user_pin) is False and failed_pin_attempts < 2:
+            failed_pin_attempts += 1
+            data_manager.update_failed_pin_attempts(card_id, failed_pin_attempts)
             return render_template('invalid-pin.html', card_id=card_id)
 
 
@@ -137,6 +131,8 @@ def withdraw(card_id):
                                card_id=card_id)
     elif request.method == 'POST':
         withdraw_amount = int(request.form['withdraw-amount'])
+        # withdrawal amount validation is done in the utils module
+        # the max withdrawal amount and multiple (for bills) are set there
         if utils.validate_withdraw_amount(withdraw_amount) is False:
             return render_template('invalid-amount.html',
                                    card_id=card_id)

@@ -32,6 +32,12 @@ class TestDataManager(unittest.TestCase):
         answer = data_manager.get_specific_card_balance(1234)
         self.assertEqual(answer, 5000.0)
 
+    def test_get_specific_card_card_pin(self):
+        answer = data_manager.get_specific_card_card_pin(1234)
+        self.assertEqual(answer, 1234)
+        answer = data_manager.get_specific_card_card_pin(1893)
+        self.assertEqual(answer, 9832)
+
     def test_get_specific_card_currency(self):
         answer = data_manager.get_specific_card_currency(9842)
         self.assertEqual(answer, 'EUR')
@@ -41,6 +47,14 @@ class TestDataManager(unittest.TestCase):
     def test_calculate_balance(self):
         answer = data_manager.calculate_balance(1234, 400)
         self.assertEqual(answer, 4600)
+
+    def test_verify_pin(self):
+        answer = data_manager.verify_pin(1234, 1234)
+        self.assertEqual(answer, True)
+        answer = data_manager.verify_pin(1893, 9832)
+        self.assertEqual(answer, True)
+
+
 
 if __name__ == '__main__':
     unittest.main()
