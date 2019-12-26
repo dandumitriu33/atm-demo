@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+import data_manager
 
 
 app = Flask(__name__)
@@ -154,19 +155,19 @@ def balance(card_id):
 
 @app.route('/<card_id>/options/details')
 def details(card_id):
-    result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
-    for item in result:
-        holder = item.holder_name
-        type = item.card_type
-        bank_name = item.bank_name
-        bank_account = item.account_number
+    holder = data_manager.get_specific_card_holder_name(card_id)
+    type = data_manager.get_specific_card_type(card_id)
+    bank_name = data_manager.get_specific_card_bank_name(card_id)
+    bank_account = data_manager.get_specific_card_account_number(card_id)
     return render_template('details.html',
                            card_id=card_id,
                            holder=holder,
                            type=type,
                            bank_name=bank_name,
-                           bank_account=bank_account)
+                           bank_account=bank_account
+                           )
+
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
