@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import data_manager
+import utils
 
 
 app = Flask(__name__)
@@ -135,22 +136,15 @@ def withdraw(card_id):
         return render_template('withdraw.html',
                                card_id=card_id)
     elif request.method == 'POST':
-        result = Atm.query.filter_by(card_id=card_id).first()
-        result.balance -= int(request.form['withdraw-amount'])
-        db.session.commit()
-        return redirect(url_for('options', card_id=card_id))
+        withdraw_amount = int(request.form['withdraw-amount'])
+        if utils.validate_withdraw_amount(withdraw_amount) is False:
+            return render_template('invalid-amount.html',
+                                   card_id=card_id)
+        elif utils.validate_withdraw_amount(withdraw_amount) is True:
+            remaining_balance = data_manager.calculate_balance(card_id, withdraw_amount)
+            data_manager.update_balance(card_id, remaining_balance)
+            return redirect(url_for('options', card_id=card_id))
 
-
-# @app.route('/<card_id>/options/balance')
-# def balance(card_id):
-#     result = Atm.query.order_by(Atm.card_id).filter(Atm.card_id == card_id)
-#     for item in result:
-#         balance = item.balance
-#         currency = item.currency
-#     return render_template('balance.html',
-#                            card_id=card_id,
-#                            balance=balance,
-#                            currency=currency)
 
 @app.route('/<card_id>/options/balance')
 def balance(card_id):
@@ -173,9 +167,7 @@ def details(card_id):
                            holder=holder,
                            type=type,
                            bank_name=bank_name,
-                           bank_account=bank_account
-                           )
-
+                           bank_account=bank_account)
 
 
 if __name__ == "__main__":

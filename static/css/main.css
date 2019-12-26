@@ -144,6 +144,20 @@ h1 {
     color: lightgray;
 }
 
+.invalid-withdraw-h1 {
+    position: fixed;
+    color: lightgray;
+    margin-top: 270px;
+    margin-left: 285px;
+}
+
+.withdraw-info {
+    position: fixed;
+    color: lightgray;
+    margin-top: 720px;
+    margin-left: 80px;
+}
+
 .withdraw-button {
     width: 180px;
     background-color: darkgray;

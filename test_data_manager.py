@@ -38,6 +38,9 @@ class TestDataManager(unittest.TestCase):
         answer = data_manager.get_specific_card_currency(1893)
         self.assertEqual(answer, 'USD')
 
+    def test_calculate_balance(self):
+        answer = data_manager.calculate_balance(1234, 400)
+        self.assertEqual(answer, 4600)
 
 if __name__ == '__main__':
     unittest.main()

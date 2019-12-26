@@ -28,3 +28,8 @@ def get_card_info(card_id):
     result = Atm.query.filter_by(card_id=card_id).first()
     return result
 
+
+def update_balance_in_db(card_id, remaining_balance):
+    result = Atm.query.filter_by(card_id=card_id).first()
+    result.balance = remaining_balance
+    db.session.commit()

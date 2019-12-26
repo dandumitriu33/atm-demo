@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>INVALID AMOUNT</title>
+<meta http-equiv="refresh" content="10; url = {{ url_for('withdraw', card_id=card_id) }}" />
+{% endblock head %}
+
+
+
+
+{% block body %}
+<h1 class="invalid-withdraw-h1">INVALID AMOUNT</h1>
+
+<a href="{{ url_for('withdraw', card_id=card_id) }}"><button class="back-button">BACK</button></a>
+
+{% endblock body %}
