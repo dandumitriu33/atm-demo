@@ -4,6 +4,8 @@ Educational project. Simulation of an ATM machine progam.
 
 quick look - https://flaskatmdemo.herokuapp.com/
 
+![alt text](static/img/preview.jpg?raw=true)
+
 ## Technologies used:
 - Flask - Python framework for web apps http://flask.palletsprojects.com/en/1.1.x/
 - HTML and CSS
